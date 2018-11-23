@@ -1,15 +1,15 @@
 /*
-  Stockfish, a UCI chess playing engine derived from Glaurung 2.1
+  SugaR, a UCI chess playing engine derived from Stockfish
   Copyright (C) 2004-2008 Tord Romstad (Glaurung author)
   Copyright (C) 2008-2015 Marco Costalba, Joona Kiiski, Tord Romstad
   Copyright (C) 2015-2019 Marco Costalba, Joona Kiiski, Gary Linscott, Tord Romstad
 
-  Stockfish is free software: you can redistribute it and/or modify
+  SugaR is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  Stockfish is distributed in the hope that it will be useful,
+  SugaR is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
@@ -157,6 +157,8 @@ public:
   Score psq_score() const;
   Value non_pawn_material(Color c) const;
   Value non_pawn_material() const;
+  Value pawn_material(Color c) const;
+  Value pawn_material() const;
 
   // Position consistency check, for debugging
   bool pos_is_ok() const;
@@ -340,6 +342,14 @@ inline Value Position::non_pawn_material(Color c) const {
 
 inline Value Position::non_pawn_material() const {
   return st->nonPawnMaterial[WHITE] + st->nonPawnMaterial[BLACK];
+}
+
+inline Value Position::pawn_material() const {
+	return pawn_material(WHITE) + pawn_material(BLACK);
+}
+
+inline Value Position::pawn_material(Color c) const {
+	return PawnValueEg * pieceCount[make_piece(c, PAWN)];
 }
 
 inline int Position::game_ply() const {
